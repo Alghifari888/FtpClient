@@ -231,7 +231,7 @@ Partial Class Form1
         'LinkLabel1
         '
         Me.LinkLabel1.AutoSize = True
-        Me.LinkLabel1.Location = New System.Drawing.Point(437, 57)
+        Me.LinkLabel1.Location = New System.Drawing.Point(499, 62)
         Me.LinkLabel1.Name = "LinkLabel1"
         Me.LinkLabel1.Size = New System.Drawing.Size(145, 16)
         Me.LinkLabel1.TabIndex = 21

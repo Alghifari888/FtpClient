@@ -25,6 +25,7 @@ Public Class frmEditor
         End Try
     End Sub
 
+
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
         ' Saat tombol save diklik, simpan kembali teks ke file temporary
         Try

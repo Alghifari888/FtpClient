@@ -1,14 +1,12 @@
-
-```markdown
 # 📂 FTP Client Sederhana (VB.NET)
 
 Selamat datang di dokumentasi resmi **Proyek FTP Client Sederhana**. Aplikasi ini merupakan klien FTP desktop berbasis **Visual Basic .NET (VB.NET)** dan **Windows Forms** yang dirancang untuk tujuan edukasi sekaligus sebagai fondasi pemahaman komunikasi dengan server FTP.
 
----
+
 
 > ✨ _"Aku tidak berilmu; yang berilmu hanyalah DIA. Jika tampak ilmu dariku, itu hanyalah pantulan dari Cahaya-Nya."_
 
----
+
 
 ## 📜 Daftar Isi
 1. [Fitur Utama](#-fitur-utama)
@@ -19,7 +17,7 @@ Selamat datang di dokumentasi resmi **Proyek FTP Client Sederhana**. Aplikasi in
 6. [Konsep Teknis Utama](#-konsep-teknis-utama)
 7. [Panduan Kontribusi](#-panduan-kontribusi)
 
----
+
 
 ## ✨ Fitur Utama
 Aplikasi ini menyediakan berbagai fitur esensial untuk operasi FTP dasar:
@@ -50,7 +48,6 @@ Aplikasi ini menyediakan berbagai fitur esensial untuk operasi FTP dasar:
 - 📜 **Log Aktivitas**  
   Mencatat semua aktivitas dan status koneksi
 
----
 
 ## 🚀 Teknologi yang Digunakan
 - **Bahasa Pemrograman:** Visual Basic .NET (VB.NET)
@@ -59,7 +56,7 @@ Aplikasi ini menyediakan berbagai fitur esensial untuk operasi FTP dasar:
 - **Library FTP:** `System.Net.FtpWebRequest`
 - **IDE Pengembangan:** Microsoft Visual Studio
 
----
+
 
 ## 🚀 Panduan Instalasi
 
@@ -124,7 +121,7 @@ VbFtpClient/
 | Buat Folder | Klik `New Folder` → masukkan nama folder |
 | Hapus       | Pilih item → klik `Delete`               |
 
----
+
 
 ## 🧠 Konsep Teknis Utama
 
@@ -145,7 +142,7 @@ Implementasi utama untuk operasi FTP:
 ### 3. Thread-Safe UI Updates
 Menggunakan `InvokeRequired` dan `Invoke()` untuk update UI yang aman
 
----
+
 
 ## 📣 Panduan Kontribusi
 
@@ -184,8 +181,8 @@ Menggunakan `InvokeRequired` dan `Invoke()` untuk update UI yang aman
   - `refactor:` untuk perbaikan kode tanpa perubahan fungsionalitas
 - Satu Pull Request per fitur/perbaikan
 
----
+
 
 ## 🙏 Ucapan Terima Kasih
 Terima kasih atas ketertarikan dan kontribusi Anda! Mari bersama-sama membangun komunitas open source yang lebih baik di Indonesia. 🚀🇮🇩
-```
+

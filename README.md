@@ -6,7 +6,9 @@ Selamat datang di dokumentasi resmi **Proyek FTP Client Sederhana**. Aplikasi in
 
 > ✨ _"Aku tidak berilmu; yang berilmu hanyalah DIA. Jika tampak ilmu dariku, itu hanyalah pantulan dari Cahaya-Nya."_
 
+![ContohGambar1](gambar1.png)
 
+![ContohGambar2](gambar2.png)
 
 ## 📜 Daftar Isi
 1. [Fitur Utama](#-fitur-utama)

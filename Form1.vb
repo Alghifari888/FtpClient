@@ -525,6 +525,24 @@ Public Class Form1
         End Try
     End Function
 
+    Private Sub Label5_Click(sender As Object, e As EventArgs) Handles Label5.Click
+
+    End Sub
+
+    Imports System.Diagnostics
+
+    Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
+        Try
+            Process.Start(New ProcessStartInfo With {
+                .FileName = "https://github.com/alghifari888",
+                .UseShellExecute = True
+            })
+        Catch ex As Exception
+            MessageBox.Show("Gagal membuka link: " & ex.Message)
+        End Try
+    End Sub
+
+
 
 #End Region
 

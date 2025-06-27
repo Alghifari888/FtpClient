@@ -42,12 +42,14 @@ Partial Class Form1
         Me.txtLog = New System.Windows.Forms.TextBox()
         Me.btnConnect = New System.Windows.Forms.Button()
         Me.btnEdit = New System.Windows.Forms.Button()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.LinkLabel1 = New System.Windows.Forms.LinkLabel()
         Me.SuspendLayout()
         '
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(208, 17)
+        Me.Label1.Location = New System.Drawing.Point(227, 122)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(35, 16)
         Me.Label1.TabIndex = 0
@@ -56,7 +58,7 @@ Partial Class Form1
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(52, 14)
+        Me.Label2.Location = New System.Drawing.Point(71, 119)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(31, 16)
         Me.Label2.TabIndex = 1
@@ -65,7 +67,7 @@ Partial Class Form1
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(365, 14)
+        Me.Label3.Location = New System.Drawing.Point(384, 119)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(70, 16)
         Me.Label3.TabIndex = 2
@@ -74,7 +76,7 @@ Partial Class Form1
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(558, 14)
+        Me.Label4.Location = New System.Drawing.Point(577, 119)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(67, 16)
         Me.Label4.TabIndex = 3
@@ -82,28 +84,28 @@ Partial Class Form1
         '
         'txtPort
         '
-        Me.txtPort.Location = New System.Drawing.Point(89, 11)
+        Me.txtPort.Location = New System.Drawing.Point(108, 116)
         Me.txtPort.Name = "txtPort"
         Me.txtPort.Size = New System.Drawing.Size(100, 22)
         Me.txtPort.TabIndex = 4
         '
         'txtUser
         '
-        Me.txtUser.Location = New System.Drawing.Point(441, 11)
+        Me.txtUser.Location = New System.Drawing.Point(460, 116)
         Me.txtUser.Name = "txtUser"
         Me.txtUser.Size = New System.Drawing.Size(100, 22)
         Me.txtUser.TabIndex = 5
         '
         'txtHost
         '
-        Me.txtHost.Location = New System.Drawing.Point(249, 11)
+        Me.txtHost.Location = New System.Drawing.Point(268, 116)
         Me.txtHost.Name = "txtHost"
         Me.txtHost.Size = New System.Drawing.Size(100, 22)
         Me.txtHost.TabIndex = 6
         '
         'txtPass
         '
-        Me.txtPass.Location = New System.Drawing.Point(631, 11)
+        Me.txtPass.Location = New System.Drawing.Point(650, 116)
         Me.txtPass.Name = "txtPass"
         Me.txtPass.Size = New System.Drawing.Size(100, 22)
         Me.txtPass.TabIndex = 7
@@ -111,7 +113,7 @@ Partial Class Form1
         'lblLocalPath
         '
         Me.lblLocalPath.AutoSize = True
-        Me.lblLocalPath.Location = New System.Drawing.Point(169, 53)
+        Me.lblLocalPath.Location = New System.Drawing.Point(188, 158)
         Me.lblLocalPath.Name = "lblLocalPath"
         Me.lblLocalPath.Size = New System.Drawing.Size(81, 16)
         Me.lblLocalPath.TabIndex = 8
@@ -120,7 +122,7 @@ Partial Class Form1
         'lsvLocal
         '
         Me.lsvLocal.HideSelection = False
-        Me.lsvLocal.Location = New System.Drawing.Point(16, 81)
+        Me.lsvLocal.Location = New System.Drawing.Point(35, 186)
         Me.lsvLocal.Name = "lsvLocal"
         Me.lsvLocal.Size = New System.Drawing.Size(470, 229)
         Me.lsvLocal.TabIndex = 9
@@ -130,7 +132,7 @@ Partial Class Form1
         'lblRemotePath
         '
         Me.lblRemotePath.AutoSize = True
-        Me.lblRemotePath.Location = New System.Drawing.Point(688, 53)
+        Me.lblRemotePath.Location = New System.Drawing.Point(707, 158)
         Me.lblRemotePath.Name = "lblRemotePath"
         Me.lblRemotePath.Size = New System.Drawing.Size(96, 16)
         Me.lblRemotePath.TabIndex = 10
@@ -139,7 +141,7 @@ Partial Class Form1
         'lsvRemote
         '
         Me.lsvRemote.HideSelection = False
-        Me.lsvRemote.Location = New System.Drawing.Point(492, 81)
+        Me.lsvRemote.Location = New System.Drawing.Point(511, 186)
         Me.lsvRemote.Name = "lsvRemote"
         Me.lsvRemote.Size = New System.Drawing.Size(494, 229)
         Me.lsvRemote.TabIndex = 11
@@ -148,7 +150,7 @@ Partial Class Form1
         '
         'btnUpload
         '
-        Me.btnUpload.Location = New System.Drawing.Point(272, 328)
+        Me.btnUpload.Location = New System.Drawing.Point(167, 433)
         Me.btnUpload.Name = "btnUpload"
         Me.btnUpload.Size = New System.Drawing.Size(91, 23)
         Me.btnUpload.TabIndex = 12
@@ -157,7 +159,7 @@ Partial Class Form1
         '
         'btnDownload
         '
-        Me.btnDownload.Location = New System.Drawing.Point(373, 328)
+        Me.btnDownload.Location = New System.Drawing.Point(268, 433)
         Me.btnDownload.Name = "btnDownload"
         Me.btnDownload.Size = New System.Drawing.Size(113, 23)
         Me.btnDownload.TabIndex = 13
@@ -166,7 +168,7 @@ Partial Class Form1
         '
         'btnDeleteRemote
         '
-        Me.btnDeleteRemote.Location = New System.Drawing.Point(492, 328)
+        Me.btnDeleteRemote.Location = New System.Drawing.Point(556, 433)
         Me.btnDeleteRemote.Name = "btnDeleteRemote"
         Me.btnDeleteRemote.Size = New System.Drawing.Size(75, 23)
         Me.btnDeleteRemote.TabIndex = 14
@@ -175,7 +177,7 @@ Partial Class Form1
         '
         'btnCreateDir
         '
-        Me.btnCreateDir.Location = New System.Drawing.Point(573, 328)
+        Me.btnCreateDir.Location = New System.Drawing.Point(637, 433)
         Me.btnCreateDir.Name = "btnCreateDir"
         Me.btnCreateDir.Size = New System.Drawing.Size(124, 23)
         Me.btnCreateDir.TabIndex = 15
@@ -184,14 +186,14 @@ Partial Class Form1
         '
         'progressBar
         '
-        Me.progressBar.Location = New System.Drawing.Point(16, 367)
+        Me.progressBar.Location = New System.Drawing.Point(35, 472)
         Me.progressBar.Name = "progressBar"
         Me.progressBar.Size = New System.Drawing.Size(970, 34)
         Me.progressBar.TabIndex = 16
         '
         'txtLog
         '
-        Me.txtLog.Location = New System.Drawing.Point(16, 420)
+        Me.txtLog.Location = New System.Drawing.Point(35, 525)
         Me.txtLog.Multiline = True
         Me.txtLog.Name = "txtLog"
         Me.txtLog.Size = New System.Drawing.Size(970, 104)
@@ -199,7 +201,7 @@ Partial Class Form1
         '
         'btnConnect
         '
-        Me.btnConnect.Location = New System.Drawing.Point(748, 12)
+        Me.btnConnect.Location = New System.Drawing.Point(767, 117)
         Me.btnConnect.Name = "btnConnect"
         Me.btnConnect.Size = New System.Drawing.Size(187, 23)
         Me.btnConnect.TabIndex = 18
@@ -208,18 +210,41 @@ Partial Class Form1
         '
         'btnEdit
         '
-        Me.btnEdit.Location = New System.Drawing.Point(703, 328)
+        Me.btnEdit.Location = New System.Drawing.Point(767, 433)
         Me.btnEdit.Name = "btnEdit"
         Me.btnEdit.Size = New System.Drawing.Size(124, 23)
         Me.btnEdit.TabIndex = 19
         Me.btnEdit.Text = "Edit File"
         Me.btnEdit.UseVisualStyleBackColor = True
         '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Font = New System.Drawing.Font("Times New Roman", 16.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label5.ForeColor = System.Drawing.Color.Red
+        Me.Label5.Location = New System.Drawing.Point(422, 9)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(179, 32)
+        Me.Label5.TabIndex = 20
+        Me.Label5.Text = "FTP CLIENT"
+        '
+        'LinkLabel1
+        '
+        Me.LinkLabel1.AutoSize = True
+        Me.LinkLabel1.Location = New System.Drawing.Point(437, 57)
+        Me.LinkLabel1.Name = "LinkLabel1"
+        Me.LinkLabel1.Size = New System.Drawing.Size(145, 16)
+        Me.LinkLabel1.TabIndex = 21
+        Me.LinkLabel1.TabStop = True
+        Me.LinkLabel1.Text = "Created By alghifari888"
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1042, 535)
+        Me.ClientSize = New System.Drawing.Size(1042, 648)
+        Me.Controls.Add(Me.LinkLabel1)
+        Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.btnEdit)
         Me.Controls.Add(Me.btnConnect)
         Me.Controls.Add(Me.txtLog)
@@ -267,4 +292,6 @@ Partial Class Form1
     Friend WithEvents txtLog As TextBox
     Friend WithEvents btnConnect As Button
     Friend WithEvents btnEdit As Button
+    Friend WithEvents Label5 As Label
+    Friend WithEvents LinkLabel1 As LinkLabel
 End Class

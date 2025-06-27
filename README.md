@@ -1,4 +1,4 @@
-````
+````markdown
 # 📂 FTP Client Sederhana (VB.NET)
 
 Selamat datang di dokumentasi resmi **Proyek FTP Client Sederhana**. Aplikasi ini adalah sebuah klien FTP desktop yang fungsional, dibangun menggunakan **Visual Basic .NET (VB.NET)** dan **Windows Forms**. Proyek ini dirancang sebagai sarana edukasi dan fondasi untuk memahami cara kerja komunikasi dengan server FTP, dengan antarmuka yang terinspirasi dari aplikasi populer seperti FileZilla.
@@ -74,7 +74,7 @@ Aplikasi ini dilengkapi dengan fitur-fitur esensial seperti:
 ### 📦 Langkah Instalasi
 
 ```bash
-git clone https://github.com/Alghifari888/FtpClient
+git clone https://github.com/NAMA_USER/NAMA_REPO.git
 ````
 
 1. Buka file `.sln` di Visual Studio
@@ -202,3 +202,5 @@ Setelah selesai, push dan buat **Pull Request** dari fork Anda ke repo asli.
 Terima kasih atas minat dan kontribusi Anda! Mari belajar dan berkembang bersama komunitas open source 🇮🇩🚀
 
 ```
+
+---

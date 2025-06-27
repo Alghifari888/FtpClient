@@ -1,5 +1,6 @@
 ﻿Imports System.Net
 Imports System.IO
+Imports System.Diagnostics
 
 Public Class Form1
 
@@ -206,7 +207,7 @@ Public Class Form1
         End Try
     End Sub
 
-    ' --- ### BARU: Tombol untuk mengedit file di server ### ---
+    ' --- Tombol untuk mengedit file di server ---
     Private Async Sub btnEdit_Click(sender As Object, e As EventArgs) Handles btnEdit.Click
         If lsvRemote.SelectedItems.Count = 0 OrElse lsvRemote.SelectedItems(0).Tag.ToString() <> "F:" Then
             LogActivity("Pilih sebuah file dari panel server untuk diedit.")
@@ -250,6 +251,21 @@ Public Class Form1
             LogActivity($"Gagal menghapus file temporary: {ex.Message}")
         End Try
 
+    End Sub
+
+    ' --- ### DIPINDAHKAN & DIPERBAIKI: Event untuk LinkLabel "Created By" ### ---
+    Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
+        Try
+            ' Ganti "NAMA_USER" dengan username GitHub Anda
+            Dim githubUrl As String = "https://github.com/alghifari888"
+
+            Process.Start(New ProcessStartInfo With {
+              .FileName = githubUrl,
+              .UseShellExecute = True
+            })
+        Catch ex As Exception
+            MessageBox.Show("Gagal membuka link: " & ex.Message)
+        End Try
     End Sub
 
 
@@ -524,24 +540,6 @@ Public Class Form1
             UpdateProgress(0)
         End Try
     End Function
-
-    Private Sub Label5_Click(sender As Object, e As EventArgs) Handles Label5.Click
-
-    End Sub
-
-    Imports System.Diagnostics
-
-    Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
-        Try
-            Process.Start(New ProcessStartInfo With {
-                .FileName = "https://github.com/alghifari888",
-                .UseShellExecute = True
-            })
-        Catch ex As Exception
-            MessageBox.Show("Gagal membuka link: " & ex.Message)
-        End Try
-    End Sub
-
 
 
 #End Region

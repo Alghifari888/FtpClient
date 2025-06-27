@@ -67,7 +67,7 @@ Aplikasi ini menyediakan berbagai fitur esensial untuk operasi FTP dasar:
 ### 📦 Langkah-langkah Instalasi
 1. Clone repository:
    ```bash
-   git clone https://github.com/NAMA_USER/NAMA_REPO.git
+   git clone https://github.com/Alghifari888/FtpClient
    ```
 2. Buka solusi di Visual Studio:
    - Buka file `.sln`
@@ -149,7 +149,7 @@ Menggunakan `InvokeRequired` dan `Invoke()` untuk update UI yang aman
 ### Untuk Kolaborator
 1. Clone repository:
    ```bash
-   git clone https://github.com/NAMA_USER/NAMA_REPO.git
+   git clone https://github.com/Alghifari888/FtpClient
    ```
 2. Buat branch baru:
    ```bash
@@ -184,5 +184,5 @@ Menggunakan `InvokeRequired` dan `Invoke()` untuk update UI yang aman
 
 
 ## 🙏 Ucapan Terima Kasih
-Terima kasih atas ketertarikan dan kontribusi Anda! Mari bersama-sama membangun komunitas open source yang lebih baik di Indonesia. 🚀🇮🇩
+Terima kasih atas ketertarikan dan kontribusi Anda! Mari bersama-sama membangun komunitas open source yang lebih baik di Indonesia.
 

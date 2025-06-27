@@ -118,51 +118,12 @@ Public Class Form1
 
         Dim localFileItem = lsvLocal.SelectedItems(0)
         Dim localFilePath As String = Path.Combine(lblLocalPath.Text, localFileItem.Text)
+
         Dim remoteFileName As String = localFileItem.Text
         Dim remotePath = lblRemotePath.Text.TrimEnd("/"c)
-        Dim remoteUri As String = $"ftp://{ftpHost}:{ftpPort}{remotePath}/{remoteFileName}"
 
-        LogActivity($"Uploading {localFileItem.Text} to {remotePath}/...")
-        UpdateProgress(0) ' Reset progress bar
-
-        Try
-            Dim request As FtpWebRequest = CreateFtpRequest(remoteUri, WebRequestMethods.Ftp.UploadFile)
-            Dim fileInfo As New FileInfo(localFilePath)
-            request.ContentLength = fileInfo.Length
-
-            Const bufferSize As Integer = 4096 ' Buffer 4KB
-            Dim buffer(bufferSize - 1) As Byte
-            Dim bytesRead As Integer
-            Dim totalBytesRead As Long = 0
-
-            Using localFileStream As FileStream = fileInfo.OpenRead()
-                Using requestStream As Stream = Await request.GetRequestStreamAsync()
-                    Do
-                        bytesRead = Await localFileStream.ReadAsync(buffer, 0, bufferSize)
-                        If bytesRead = 0 Then Exit Do
-
-                        Await requestStream.WriteAsync(buffer, 0, bytesRead)
-                        totalBytesRead += bytesRead
-
-                        ' Update progress bar berdasarkan persentase
-                        Dim progressPercentage As Integer = CInt((totalBytesRead * 100) / fileInfo.Length)
-                        UpdateProgress(progressPercentage)
-                    Loop
-                End Using
-            End Using
-
-            Using response As FtpWebResponse = CType(Await request.GetResponseAsync(), FtpWebResponse)
-                LogActivity($"Upload complete: {response.StatusDescription}")
-            End Using
-
-            ' Refresh tampilan remote untuk menunjukkan file yang baru diupload
-            Await ListRemoteDirectoryAsync(remotePath)
-            UpdateProgress(100) ' Selesaikan progress bar
-        Catch ex As Exception
-            LogActivity($"Upload Error: {ex.Message}")
-        Finally
-            UpdateProgress(0) ' Reset progress bar meskipun gagal
-        End Try
+        Await UploadFileAsync(localFilePath, remotePath, remoteFileName)
+        Await ListRemoteDirectoryAsync(remotePath) ' Refresh tampilan remote
     End Sub
 
     ' --- Tombol untuk men-download file ---
@@ -174,7 +135,6 @@ Public Class Form1
 
         Dim remoteFileItem = lsvRemote.SelectedItems(0)
         Dim remoteFileName = remoteFileItem.Text
-        Dim remotePath = lblRemotePath.Text.TrimEnd("/"c)
         Dim localDownloadPath As String = lblLocalPath.Text
 
         ' Pastikan path lokal valid dan bukan "My Computer"
@@ -183,57 +143,10 @@ Public Class Form1
             Return
         End If
 
-        Dim remoteUri As String = $"ftp://{ftpHost}:{ftpPort}{remotePath}/{remoteFileName}"
-        Dim localFilePath As String = Path.Combine(localDownloadPath, remoteFileName)
-
-        LogActivity($"Downloading {remoteFileName} to {localDownloadPath}...")
-        UpdateProgress(0)
-
-        Try
-            ' Pertama, dapatkan ukuran file untuk progress bar
-            Dim sizeRequest As FtpWebRequest = CreateFtpRequest(remoteUri, WebRequestMethods.Ftp.GetFileSize)
-            Dim fileSize As Long
-            Using sizeResponse As FtpWebResponse = CType(Await sizeRequest.GetResponseAsync(), FtpWebResponse)
-                fileSize = sizeResponse.ContentLength
-                sizeResponse.Close()
-            End Using
-
-            ' Kedua, mulai download file
-            Dim downloadRequest As FtpWebRequest = CreateFtpRequest(remoteUri, WebRequestMethods.Ftp.DownloadFile)
-
-            Using response As FtpWebResponse = CType(Await downloadRequest.GetResponseAsync(), FtpWebResponse)
-                Using responseStream As Stream = response.GetResponseStream()
-                    Using localFileStream As New FileStream(localFilePath, FileMode.Create)
-                        Const bufferSize As Integer = 4096
-                        Dim buffer(bufferSize - 1) As Byte
-                        Dim bytesRead As Integer
-                        Dim totalBytesRead As Long = 0
-
-                        Do
-                            bytesRead = Await responseStream.ReadAsync(buffer, 0, bufferSize)
-                            If bytesRead = 0 Then Exit Do
-
-                            Await localFileStream.WriteAsync(buffer, 0, bytesRead)
-                            totalBytesRead += bytesRead
-
-                            ' Update progress bar
-                            Dim progressPercentage As Integer = CInt((totalBytesRead * 100) / fileSize)
-                            UpdateProgress(progressPercentage)
-                        Loop
-                    End Using
-                End Using
-                LogActivity($"Download complete: {response.StatusDescription}")
-            End Using
-
-            ' Refresh tampilan lokal untuk menampilkan file yang baru didownload
-            LoadLocalDirectory(localDownloadPath)
-            UpdateProgress(100)
-        Catch ex As Exception
-            LogActivity($"Download Error: {ex.Message}")
-        Finally
-            UpdateProgress(0)
-        End Try
+        Await DownloadFileAsync(remoteFileName, localDownloadPath)
+        LoadLocalDirectory(localDownloadPath) ' Refresh tampilan lokal
     End Sub
+
 
     ' --- Tombol untuk menghapus file atau folder di remote server ---
     Private Async Sub btnDeleteRemote_Click(sender As Object, e As EventArgs) Handles btnDeleteRemote.Click
@@ -293,6 +206,52 @@ Public Class Form1
         End Try
     End Sub
 
+    ' --- ### BARU: Tombol untuk mengedit file di server ### ---
+    Private Async Sub btnEdit_Click(sender As Object, e As EventArgs) Handles btnEdit.Click
+        If lsvRemote.SelectedItems.Count = 0 OrElse lsvRemote.SelectedItems(0).Tag.ToString() <> "F:" Then
+            LogActivity("Pilih sebuah file dari panel server untuk diedit.")
+            Return
+        End If
+
+        Dim remoteFileItem = lsvRemote.SelectedItems(0)
+        Dim remoteFileName = remoteFileItem.Text
+
+        ' Download file ke folder temporary sistem
+        Dim tempLocalPath As String = Path.GetTempPath()
+        Dim tempFilePath As String = Path.Combine(tempLocalPath, remoteFileName)
+
+        ' Download file untuk diedit
+        Dim downloadSuccess As Boolean = Await DownloadFileAsync(remoteFileName, tempLocalPath, "edit")
+        If Not downloadSuccess Then
+            LogActivity($"Gagal membuka file '{remoteFileName}' untuk diedit.")
+            Return
+        End If
+
+        ' Buka form editor
+        Using editorForm As New frmEditor(tempFilePath, remoteFileName)
+            ' Tampilkan form editor dan tunggu sampai ditutup
+            If editorForm.ShowDialog() = DialogResult.OK Then
+                ' Jika user menekan "Save", upload file kembali ke server
+                LogActivity("Menyimpan perubahan kembali ke server...")
+                Dim remotePath = lblRemotePath.Text.TrimEnd("/"c)
+                Await UploadFileAsync(tempFilePath, remotePath, remoteFileName)
+            Else
+                LogActivity("Proses edit dibatalkan oleh pengguna.")
+            End If
+        End Using
+
+        ' Selalu hapus file temporary setelah selesai, baik disimpan maupun tidak
+        Try
+            If File.Exists(tempFilePath) Then
+                File.Delete(tempFilePath)
+                LogActivity($"File temporary '{remoteFileName}' telah dihapus dari lokal.")
+            End If
+        Catch ex As Exception
+            LogActivity($"Gagal menghapus file temporary: {ex.Message}")
+        End Try
+
+    End Sub
+
 
     '================================================================================
     ' FUNGSI PEMBANTU (Helper Methods)
@@ -301,7 +260,7 @@ Public Class Form1
 #Region "Manajemen Log & UI Helpers"
 
     ' --- Prosedur untuk mencatat aktivitas ke TextBox Log (Thread-Safe) ---
-    Private Sub LogActivity(message As String)
+    Public Sub LogActivity(message As String)
         If txtLog.InvokeRequired Then
             ' Jika dipanggil dari thread lain, gunakan Invoke untuk keamanan
             txtLog.Invoke(New Action(Of String)(AddressOf LogActivity), message)
@@ -350,9 +309,7 @@ Public Class Form1
             lsvLocal.Items.Clear()
             lblLocalPath.Text = path
 
-            ' ### PERBAIKAN BARU ###
             ' Selalu tambahkan item ".." untuk navigasi ke atas.
-            ' Logika untuk kembali ke "My Computer" dari root drive sudah ditangani di event DoubleClick.
             Dim upItem As New ListViewItem("..")
             upItem.SubItems.Add("")
             upItem.SubItems.Add("Parent Directory")
@@ -466,6 +423,108 @@ Public Class Form1
             LogActivity($"General Error: {ex.Message}")
         End Try
     End Function
+
+    ' --- Fungsi untuk meng-upload file ke server ---
+    Private Async Function UploadFileAsync(localFilePath As String, remotePath As String, remoteFileName As String) As Task
+        Dim remoteUri As String = $"ftp://{ftpHost}:{ftpPort}{remotePath}/{remoteFileName}"
+
+        LogActivity($"Uploading {remoteFileName} to {remotePath}/...")
+        UpdateProgress(0)
+
+        Try
+            Dim request As FtpWebRequest = CreateFtpRequest(remoteUri, WebRequestMethods.Ftp.UploadFile)
+            Dim fileInfo As New FileInfo(localFilePath)
+            request.ContentLength = fileInfo.Length
+
+            Const bufferSize As Integer = 4096
+            Dim buffer(bufferSize - 1) As Byte
+            Dim bytesRead As Integer
+            Dim totalBytesRead As Long = 0
+
+            Using localFileStream As FileStream = fileInfo.OpenRead()
+                Using requestStream As Stream = Await request.GetRequestStreamAsync()
+                    Do
+                        bytesRead = Await localFileStream.ReadAsync(buffer, 0, bufferSize)
+                        If bytesRead = 0 Then Exit Do
+
+                        Await requestStream.WriteAsync(buffer, 0, bytesRead)
+                        totalBytesRead += bytesRead
+
+                        Dim progressPercentage As Integer = CInt((totalBytesRead * 100) / fileInfo.Length)
+                        UpdateProgress(progressPercentage)
+                    Loop
+                End Using
+            End Using
+
+            Using response As FtpWebResponse = CType(Await request.GetResponseAsync(), FtpWebResponse)
+                LogActivity($"Upload complete: {response.StatusDescription}")
+            End Using
+            UpdateProgress(100)
+        Catch ex As Exception
+            LogActivity($"Upload Error: {ex.Message}")
+        Finally
+            UpdateProgress(0)
+        End Try
+    End Function
+
+    ' --- Fungsi untuk men-download file dari server ---
+    Private Async Function DownloadFileAsync(remoteFileName As String, localDownloadPath As String, Optional mode As String = "download") As Task(Of Boolean)
+        Dim remotePath = lblRemotePath.Text.TrimEnd("/"c)
+        Dim remoteUri As String = $"ftp://{ftpHost}:{ftpPort}{remotePath}/{remoteFileName}"
+        Dim localFilePath As String = Path.Combine(localDownloadPath, remoteFileName)
+
+        If mode = "download" Then
+            LogActivity($"Downloading {remoteFileName} to {localDownloadPath}...")
+        Else
+            LogActivity($"Downloading temporary file {remoteFileName} for editing...")
+        End If
+
+        UpdateProgress(0)
+
+        Try
+            Dim sizeRequest As FtpWebRequest = CreateFtpRequest(remoteUri, WebRequestMethods.Ftp.GetFileSize)
+            Dim fileSize As Long
+            Using sizeResponse As FtpWebResponse = CType(Await sizeRequest.GetResponseAsync(), FtpWebResponse)
+                fileSize = sizeResponse.ContentLength
+                sizeResponse.Close()
+            End Using
+
+            Dim downloadRequest As FtpWebRequest = CreateFtpRequest(remoteUri, WebRequestMethods.Ftp.DownloadFile)
+
+            Using response As FtpWebResponse = CType(Await downloadRequest.GetResponseAsync(), FtpWebResponse)
+                Using responseStream As Stream = response.GetResponseStream()
+                    Using localFileStream As New FileStream(localFilePath, FileMode.Create)
+                        Const bufferSize As Integer = 4096
+                        Dim buffer(bufferSize - 1) As Byte
+                        Dim bytesRead As Integer
+                        Dim totalBytesRead As Long = 0
+
+                        Do
+                            bytesRead = Await responseStream.ReadAsync(buffer, 0, bufferSize)
+                            If bytesRead = 0 Then Exit Do
+
+                            Await localFileStream.WriteAsync(buffer, 0, bytesRead)
+                            totalBytesRead += bytesRead
+
+                            Dim progressPercentage As Integer = CInt((totalBytesRead * 100) / fileSize)
+                            UpdateProgress(progressPercentage)
+                        Loop
+                    End Using
+                End Using
+                If mode = "download" Then
+                    LogActivity($"Download complete: {response.StatusDescription}")
+                End If
+            End Using
+            UpdateProgress(100)
+            Return True ' Download berhasil
+        Catch ex As Exception
+            LogActivity($"Download Error: {ex.Message}")
+            Return False ' Download gagal
+        Finally
+            UpdateProgress(0)
+        End Try
+    End Function
+
 
 #End Region
 

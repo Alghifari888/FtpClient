@@ -2,6 +2,8 @@
 
 Public Class frmEditor
 
+
+
     ' Properti untuk menyimpan path file temporary
     Private ReadOnly _tempFilePath As String
 
@@ -37,5 +39,9 @@ Public Class frmEditor
         Catch ex As Exception
             MessageBox.Show($"Gagal menyimpan perubahan: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
+    End Sub
+
+    Private Sub rtbEditor_TextChanged(sender As Object, e As EventArgs) Handles rtbEditor.TextChanged
+
     End Sub
 End Class

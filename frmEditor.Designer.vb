@@ -37,7 +37,7 @@ Partial Class frmEditor
         '
         'btnSave
         '
-        Me.btnSave.Location = New System.Drawing.Point(679, 505)
+        Me.btnSave.Location = New System.Drawing.Point(670, 505)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(109, 51)
         Me.btnSave.TabIndex = 1

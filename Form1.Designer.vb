@@ -222,7 +222,7 @@ Partial Class Form1
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Times New Roman", 16.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label5.ForeColor = System.Drawing.Color.Red
-        Me.Label5.Location = New System.Drawing.Point(422, 9)
+        Me.Label5.Location = New System.Drawing.Point(425, 9)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(179, 32)
         Me.Label5.TabIndex = 20
